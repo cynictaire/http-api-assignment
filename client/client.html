@@ -6,7 +6,66 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
+    const handleResponse = (xhr) => {
+      const acceptedType = xhr.getResponseHeader('content-type');
+      const content = document.querySelector('#content');
 
+      const h1 = document.querySelector('h1');
+      const p = document.querySelector('p');
+
+      if(acceptedType === 'application/json') {
+        const obj = JSON.parse(xhr.response);
+        h1.textContent = `${obj.id}`;
+        p.textContent = `${obj.message}`;
+        
+        console.log(obj);
+      }
+      else if (acceptedType === 'text/xml') {
+        const message = xhr.responseXML.querySelector('message').textContent;
+        const id = xhr.responseXML.querySelector('id').textContent;
+          
+        h1.textContent = `id: ${id}`;
+        p.textContent = `message: ${message}`; 
+          
+        console.log(xhr.responseXML);
+      }
+    };
+
+    const requestUpdate = (e, pageSelect, typeSelect) => {
+        const url = pageSelect.value;
+        const method = typeSelect.value;
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Accept', method);
+        
+        if(method == 'get') {
+            xhr.onload = () => handleResponse(xhr);
+        }
+        
+        xhr.send();
+        e.preventDefault();
+        return false;
+    }
+
+    const init = () => {
+        const h1 = document.createElement('h1');
+        const p = document.createElement('p');
+        
+        content.appendChild(h1);
+        content.appendChild(p);
+        
+        const sendButton = document.querySelector('#send');
+        const pageSelect = document.querySelector('#page');
+        const typeSelect = document.querySelector('#type');
+        
+        const pageLoad = (e) => requestUpdate(e, pageSelect, typeSelect);
+        
+        sendButton.addEventListener('click', pageLoad);
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
