@@ -26,10 +26,9 @@ const success = (request, response, acceptedTypes) => {
 const badRequest = (request, response, acceptedTypes, params) => {
   const responseJSON = {
     message: 'This request has required parameters.',
-    id: 'Bad Request',
   };
 
-  if (!params.valid || params.valid !== true) {
+  if (!params.valid || params.valid !== 'true') {
     responseJSON.message = 'Missing valid query parameter set to true.';
     responseJSON.id = 'Bad Request';
 
@@ -62,10 +61,9 @@ const badRequest = (request, response, acceptedTypes, params) => {
 const unauthorized = (request, response, acceptedTypes, params) => {
   const responseJSON = {
     message: 'You have successfully viewed the content.',
-    id: 'Unauthorized',
   };
 
-  if (!params.valid || params.valid !== true) {
+  if (!params.loggedIn || params.loggedIn !== 'yes') {
     responseJSON.message = 'Missing loggedIn query parameter set to yes.';
     responseJSON.id = 'Unauthorized';
 
@@ -116,7 +114,7 @@ const forbidden = (request, response, acceptedTypes) => {
 
 const internal = (request, response, acceptedTypes) => {
   const responseJSON = {
-    message: 'Internal server error, something went wrong.',
+    message: 'Internal server error. Something went wrong.',
     id: 'Internal Error',
   };
 
@@ -135,7 +133,7 @@ const internal = (request, response, acceptedTypes) => {
 
 const notImplemented = (request, response, acceptedTypes) => {
   const responseJSON = {
-    message: 'A get request for this page has not been implemented yet. Check later for updated content.',
+    message: 'A get request for this page has not been implemented yet. Check again later for updated content.',
     id: 'Not Implemented',
   };
 
