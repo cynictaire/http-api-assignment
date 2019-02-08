@@ -6,12 +6,12 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
+    const h1 = document.createElement('h1');
+    const p = document.createElement('p');
+
     const handleResponse = (xhr) => {
       const acceptedType = xhr.getResponseHeader('content-type');
       const content = document.querySelector('#content');
-
-      const h1 = document.querySelector('h1');
-      const p = document.querySelector('p');
 
       if(acceptedType === 'application/json') {
         const obj = JSON.parse(xhr.response);
@@ -24,8 +24,8 @@
         const message = xhr.responseXML.querySelector('message').textContent;
         const id = xhr.responseXML.querySelector('id').textContent;
           
-        h1.textContent = `id: ${id}`;
-        p.textContent = `message: ${message}`; 
+        h1.textContent = `${id}`;
+        p.textContent = `${message}`; 
           
         console.log(xhr.responseXML);
       }
@@ -40,9 +40,7 @@
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('Accept', method);
         
-        if(method == 'get') {
-            xhr.onload = () => handleResponse(xhr);
-        }
+        xhr.onload = () => handleResponse(xhr);
         
         xhr.send();
         e.preventDefault();
@@ -50,17 +48,14 @@
     }
 
     const init = () => {
-        const h1 = document.createElement('h1');
-        const p = document.createElement('p');
-        
         content.appendChild(h1);
         content.appendChild(p);
         
         const sendButton = document.querySelector('#send');
-        const pageSelect = document.querySelector('#page');
-        const typeSelect = document.querySelector('#type');
+        const pageButton = document.querySelector('#page');
+        const typeButton = document.querySelector('#type');
         
-        const pageLoad = (e) => requestUpdate(e, pageSelect, typeSelect);
+        const pageLoad = (e) => requestUpdate(e, pageButton, typeButton);
         
         sendButton.addEventListener('click', pageLoad);
     };
