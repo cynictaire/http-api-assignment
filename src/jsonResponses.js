@@ -31,7 +31,7 @@ const badRequest = (request, response, acceptedTypes, params) => {
 
   if (!params.valid || params.valid !== true) {
     responseJSON.message = 'Missing valid query parameter set to true.';
-    responseJSON.id = 'badRequest';
+    responseJSON.id = 'Bad Request';
 
     if (acceptedTypes[0] === 'text/xml') {
       let responseXML = '<response>';
@@ -67,7 +67,7 @@ const unauthorized = (request, response, acceptedTypes, params) => {
 
   if (!params.valid || params.valid !== true) {
     responseJSON.message = 'Missing loggedIn query parameter set to yes.';
-    responseJSON.id = 'unauthorized';
+    responseJSON.id = 'Unauthorized';
 
     if (acceptedTypes[0] === 'text/xml') {
       let responseXML = '<response>';
@@ -155,7 +155,7 @@ const notImplemented = (request, response, acceptedTypes) => {
 const notFound = (request, response, acceptedTypes) => {
   const responseJSON = {
     message: 'The page you are looking for was not found.',
-    id: 'notFound',
+    id: 'Not Found',
   };
 
   if (acceptedTypes[0] === 'text/xml') {
